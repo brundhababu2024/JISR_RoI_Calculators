@@ -236,19 +236,19 @@
                   ]),
 
                   // Turnover Rate
-                  e('div', { key: 'turnover-rate' }, [
-                    e('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Employee Turnover Rate (%)'),
-                    e('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.turnoverRate,
-                      onChange: (event) => handleInputChange('turnoverRate', event.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-                  ]),
+                  //e('div', { key: 'turnover-rate' }, [
+                  //  e('label', {
+                  //    key: 'label',
+                  //    className: "block text-sm font-medium text-gray-700 mb-2"
+                  //  }, 'Employee Turnover Rate (%)'),
+                  //  e('input', {
+                  //    key: 'input',
+                  //    type: 'number',
+                  //    value: inputs.turnoverRate,
+                  //    onChange: (event) => handleInputChange('turnoverRate', event.target.value),
+                  //    className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  //  })
+                  //]),
 
                   // ATS Annual Fee
                   e('div', { key: 'ats-fee', className: "border-t pt-4" }, [
@@ -435,19 +435,19 @@
                       }, `${Math.round(results.timeSavedHours || 0)} hours`)
                     ]),
                     
-                    e('div', {
-                      key: 'turnover-improvement',
-                      className: "flex items-center justify-between p-3 bg-gray-50 rounded"
-                    }, [
-                      e('span', {
-                        key: 'label',
-                        className: "text-gray-700"
-                      }, '📊 Turnover Rate Improvement'),
-                      e('span', {
-                        key: 'value',
-                        className: "font-bold text-blue-600"
-                      }, `${inputs.turnoverRate > 0 ? ((inputs.turnoverRate - (results.improvedTurnoverRate || 0)) / inputs.turnoverRate * 100).toFixed(1) : 0}%`)
-                    ])
+                    //e('div', {
+                    //  key: 'turnover-improvement',
+                    //  className: "flex items-center justify-between p-3 bg-gray-50 rounded"
+                    //}, [
+                    //  e('span', {
+                    //    key: 'label',
+                    //    className: "text-gray-700"
+                    //  }, '📊 Turnover Rate Improvement'),
+                    //  e('span', {
+                    //    key: 'value',
+                    //    className: "font-bold text-blue-600"
+                    //  }, `${inputs.turnoverRate > 0 ? ((inputs.turnoverRate - (results.improvedTurnoverRate || 0)) / inputs.turnoverRate * 100).toFixed(1) : 0}%`)
+                    //])
                   ])
                 ])
               ])
