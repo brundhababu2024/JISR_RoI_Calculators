@@ -4,18 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATS ROI Calculator - jisr.net</title>
-    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div id="root"></div>
+    <div id="root">
+        <!-- Fallback content in case React doesn't load -->
+        <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+            <h1>Loading ATS ROI Calculator...</h1>
+            <p>If this message persists, there may be a JavaScript error. Please check the console.</p>
+        </div>
+    </div>
 
     <script type="text/babel">
         const { useState, useEffect } = React;
-        const { Calculator, DollarSign, Clock, Users, TrendingUp, CheckCircle } = lucide;
+
+        // Simple SVG icon components
+        const Calculator = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <line x1="8" y1="6" x2="16" y2="6"/>
+                <line x1="16" y1="10" x2="8" y2="10"/>
+                <line x1="8" y1="14" x2="12" y2="14"/>
+                <line x1="8" y1="18" x2="12" y2="18"/>
+                <rect x="15" y="13" width="2" height="6"/>
+            </svg>
+        );
+
+        const DollarSign = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+        );
+
+        const Clock = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12,6 12,12 16,14"/>
+            </svg>
+        );
+
+        const Users = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+        );
+
+        const TrendingUp = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/>
+                <polyline points="16,7 22,7 22,13"/>
+            </svg>
+        );
+
+        const CheckCircle = ({ className }) => (
+            <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22,4 12,14.01 9,11.01"/>
+            </svg>
+        );
 
         const ATSROICalculator = () => {
           const [inputs, setInputs] = useState({
@@ -35,51 +88,53 @@
           }, [inputs]);
 
           const calculateROI = () => {
-            // Current costs without ATS
-            const monthlyRecruitmentCost = inputs.monthlyHires * inputs.recruitmentCosts;
-            const monthlyHRTimeCost = inputs.monthlyHires * inputs.hoursPerHire * inputs.hrHourlyRate;
-            const currentMonthlyCost = monthlyRecruitmentCost + monthlyHRTimeCost;
-            const currentAnnualCost = currentMonthlyCost * 12;
+            try {
+              // Current costs without ATS
+              const monthlyRecruitmentCost = inputs.monthlyHires * inputs.recruitmentCosts;
+              const monthlyHRTimeCost = inputs.monthlyHires * inputs.hoursPerHire * inputs.hrHourlyRate;
+              const currentMonthlyCost = monthlyRecruitmentCost + monthlyHRTimeCost;
+              const currentAnnualCost = currentMonthlyCost * 12;
 
-            // Improved metrics with ATS
-            const timeReduction = 0.4; // 40% time reduction
-            const costReduction = 0.35; // 35% cost reduction
-            const turnoverReduction = 0.25; // 25% turnover reduction
+              // Improved metrics with ATS
+              const timeReduction = 0.4; // 40% time reduction
+              const costReduction = 0.35; // 35% cost reduction
+              const turnoverReduction = 0.25; // 25% turnover reduction
 
-            const improvedTimeToHire = inputs.avgTimeToHire * (1 - timeReduction);
-            const improvedHoursPerHire = inputs.hoursPerHire * (1 - timeReduction);
-            const improvedRecruitmentCosts = inputs.recruitmentCosts * (1 - costReduction);
-            const improvedTurnoverRate = inputs.turnoverRate * (1 - turnoverReduction);
+              const improvedTimeToHire = inputs.avgTimeToHire * (1 - timeReduction);
+              const improvedHoursPerHire = inputs.hoursPerHire * (1 - timeReduction);
+              const improvedRecruitmentCosts = inputs.recruitmentCosts * (1 - costReduction);
+              const improvedTurnoverRate = inputs.turnoverRate * (1 - turnoverReduction);
 
-            // New costs with ATS
-            const newMonthlyRecruitmentCost = inputs.monthlyHires * improvedRecruitmentCosts;
-            const newMonthlyHRTimeCost = inputs.monthlyHires * improvedHoursPerHire * inputs.hrHourlyRate;
-            const newMonthlyCost = newMonthlyRecruitmentCost + newMonthlyHRTimeCost + inputs.atsMonthlyFee;
-            const newAnnualCost = newMonthlyCost * 12;
+              // New costs with ATS
+              const newMonthlyRecruitmentCost = inputs.monthlyHires * improvedRecruitmentCosts;
+              const newMonthlyHRTimeCost = inputs.monthlyHires * improvedHoursPerHire * inputs.hrHourlyRate;
+              const newMonthlyCost = newMonthlyRecruitmentCost + newMonthlyHRTimeCost + inputs.atsMonthlyFee;
+              const newAnnualCost = newMonthlyCost * 12;
 
-            // ROI calculations
-            const annualSavings = currentAnnualCost - newAnnualCost;
-            const atsAnnualCost = inputs.atsMonthlyFee * 12;
-            const netAnnualSavings = annualSavings - atsAnnualCost;
-            const roiPercentage = (netAnnualSavings / atsAnnualCost) * 100;
-            const paybackMonths = atsAnnualCost / (annualSavings / 12);
+              // ROI calculations
+              const annualSavings = currentAnnualCost - newAnnualCost;
+              const atsAnnualCost = inputs.atsMonthlyFee * 12;
+              const netAnnualSavings = annualSavings - atsAnnualCost;
+              const roiPercentage = (netAnnualSavings / atsAnnualCost) * 100;
+              const paybackMonths = atsAnnualCost / (annualSavings / 12);
 
-            // Additional benefits
-            const timeSavedHours = inputs.monthlyHires * (inputs.hoursPerHire - improvedHoursPerHire) * 12;
-            const turnoverCostSavings = (inputs.turnoverRate - improvedTurnoverRate) / 100 * inputs.monthlyHires * 12 * inputs.recruitmentCosts;
+              // Additional benefits
+              const timeSavedHours = inputs.monthlyHires * (inputs.hoursPerHire - improvedHoursPerHire) * 12;
 
-            setResults({
-              currentAnnualCost,
-              newAnnualCost,
-              annualSavings,
-              netAnnualSavings,
-              roiPercentage,
-              paybackMonths,
-              timeSavedHours,
-              turnoverCostSavings,
-              improvedTimeToHire,
-              improvedTurnoverRate
-            });
+              setResults({
+                currentAnnualCost,
+                newAnnualCost,
+                annualSavings,
+                netAnnualSavings,
+                roiPercentage,
+                paybackMonths,
+                timeSavedHours,
+                improvedTimeToHire,
+                improvedTurnoverRate
+              });
+            } catch (error) {
+              console.error('Error calculating ROI:', error);
+            }
           };
 
           const handleInputChange = (field, value) => {
@@ -98,430 +153,246 @@
             }).format(amount);
           };
 
-          return React.createElement('div', {
-            className: "max-w-6xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen"
-          }, [
-            // Header
-            React.createElement('div', {
-              key: 'header',
-              className: "text-center mb-8"
-            }, [
-              React.createElement('div', {
-                key: 'title-container',
-                className: "flex items-center justify-center mb-4"
-              }, [
-                React.createElement(Calculator, {
-                  key: 'calc-icon',
-                  className: "h-8 w-8 text-blue-600 mr-3"
-                }),
-                React.createElement('h1', {
-                  key: 'title',
-                  className: "text-3xl font-bold text-gray-800"
-                }, 'ATS ROI Calculator')
-              ]),
-              React.createElement('p', {
-                key: 'subtitle',
-                className: "text-lg text-gray-600"
-              }, "Calculate your return on investment with jisr.net's ATS solution"),
-              React.createElement('div', {
-                key: 'brand',
-                className: "mt-2 text-sm text-blue-600 font-medium"
-              }, 'jisr.net - Streamline Your Hiring Process')
-            ]),
+          const safeDivision = (numerator, denominator) => {
+            if (denominator === 0 || !isFinite(numerator) || !isFinite(denominator)) return 0;
+            return numerator / denominator;
+          };
 
-            React.createElement('div', {
-              key: 'main-grid',
-              className: "grid grid-cols-1 lg:grid-cols-2 gap-8"
-            }, [
-              // Input Panel
-              React.createElement('div', {
-                key: 'input-panel',
-                className: "bg-white rounded-lg shadow-lg p-6"
-              }, [
-                React.createElement('h2', {
-                  key: 'input-title',
-                  className: "text-xl font-bold text-gray-800 mb-6 flex items-center"
-                }, [
-                  React.createElement(Users, {
-                    key: 'users-icon',
-                    className: "h-5 w-5 mr-2 text-blue-600"
-                  }),
-                  'Your Current Hiring Metrics'
-                ]),
-                
-                React.createElement('div', {
-                  key: 'input-fields',
-                  className: "space-y-4"
-                }, [
-                  // Monthly Hires
-                  React.createElement('div', { key: 'monthly-hires' }, [
-                    React.createElement('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Monthly Hires'),
-                    React.createElement('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.monthlyHires,
-                      onChange: (e) => handleInputChange('monthlyHires', e.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-                  ]),
+          return (
+            <div className="max-w-6xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+              {/* Header */}
+              <div className="text-center mb-8">
+                <div className="flex items-center justify-center mb-4">
+                  <Calculator className="h-8 w-8 text-blue-600 mr-3" />
+                  <h1 className="text-3xl font-bold text-gray-800">ATS ROI Calculator</h1>
+                </div>
+                <p className="text-lg text-gray-600">Calculate your return on investment with jisr.net's ATS solution</p>
+                <div className="mt-2 text-sm text-blue-600 font-medium">jisr.net - Streamline Your Hiring Process</div>
+              </div>
 
-                  // Average Time to Hire
-                  React.createElement('div', { key: 'time-to-hire' }, [
-                    React.createElement('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Average Time to Hire (days)'),
-                    React.createElement('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.avgTimeToHire,
-                      onChange: (e) => handleInputChange('avgTimeToHire', e.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-                  ]),
-
-                  // HR Hourly Rate
-                  React.createElement('div', { key: 'hr-rate' }, [
-                    React.createElement('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'HR Hourly Rate ($)'),
-                    React.createElement('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.hrHourlyRate,
-                      onChange: (e) => handleInputChange('hrHourlyRate', e.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-                  ]),
-
-                  // Hours Per Hire
-                  React.createElement('div', { key: 'hours-per-hire' }, [
-                    React.createElement('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Hours Spent Per Hire'),
-                    React.createElement('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.hoursPerHire,
-                      onChange: (e) => handleInputChange('hoursPerHire', e.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-                  ]),
-
-                  // Cost Per Hire
-                  React.createElement('div', { key: 'cost-per-hire' }, [
-                    React.createElement('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Cost Per Hire ($)'),
-                    React.createElement('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.recruitmentCosts,
-                      onChange: (e) => handleInputChange('recruitmentCosts', e.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-                  ]),
-
-                  // Turnover Rate
-                  React.createElement('div', { key: 'turnover-rate' }, [
-                    React.createElement('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Employee Turnover Rate (%)'),
-                    React.createElement('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.turnoverRate,
-                      onChange: (e) => handleInputChange('turnoverRate', e.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-                  ]),
-
-                  // ATS Monthly Fee
-                  React.createElement('div', { key: 'ats-fee', className: "border-t pt-4" }, [
-                    React.createElement('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'jisr.net ATS Monthly Fee ($)'),
-                    React.createElement('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.atsMonthlyFee,
-                      onChange: (e) => handleInputChange('atsMonthlyFee', e.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50"
-                    })
-                  ])
-                ])
-              ]),
-
-              // Results Panel
-              React.createElement('div', {
-                key: 'results-panel',
-                className: "space-y-6"
-              }, [
-                // ROI Summary
-                React.createElement('div', {
-                  key: 'roi-summary',
-                  className: "bg-white rounded-lg shadow-lg p-6"
-                }, [
-                  React.createElement('h2', {
-                    key: 'title',
-                    className: "text-xl font-bold text-gray-800 mb-4 flex items-center"
-                  }, [
-                    React.createElement(TrendingUp, {
-                      key: 'icon',
-                      className: "h-5 w-5 mr-2 text-green-600"
-                    }),
-                    'ROI Summary'
-                  ]),
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Input Panel */}
+                <div className="bg-white rounded-lg shadow-lg p-6">
+                  <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                    <Users className="h-5 w-5 mr-2 text-blue-600" />
+                    Your Current Hiring Metrics
+                  </h2>
                   
-                  React.createElement('div', {
-                    key: 'roi-grid',
-                    className: "grid grid-cols-2 gap-4"
-                  }, [
-                    React.createElement('div', {
-                      key: 'roi-percent',
-                      className: "text-center p-4 bg-green-50 rounded-lg"
-                    }, [
-                      React.createElement('div', {
-                        key: 'value',
-                        className: "text-3xl font-bold text-green-600"
-                      }, `${results.roiPercentage > 0 ? '+' : ''}${Math.round(results.roiPercentage || 0)}%`),
-                      React.createElement('div', {
-                        key: 'label',
-                        className: "text-sm text-gray-600"
-                      }, 'Annual ROI')
-                    ]),
-                    
-                    React.createElement('div', {
-                      key: 'payback',
-                      className: "text-center p-4 bg-blue-50 rounded-lg"
-                    }, [
-                      React.createElement('div', {
-                        key: 'value',
-                        className: "text-3xl font-bold text-blue-600"
-                      }, Math.round(results.paybackMonths || 0)),
-                      React.createElement('div', {
-                        key: 'label',
-                        className: "text-sm text-gray-600"
-                      }, 'Payback (months)')
-                    ])
-                  ]),
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Monthly Hires</label>
+                      <input
+                        type="number"
+                        value={inputs.monthlyHires}
+                        onChange={(e) => handleInputChange('monthlyHires', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
 
-                  React.createElement('div', {
-                    key: 'net-savings',
-                    className: "mt-4 p-4 bg-gray-50 rounded-lg"
-                  }, [
-                    React.createElement('div', {
-                      key: 'container',
-                      className: "text-center"
-                    }, [
-                      React.createElement('div', {
-                        key: 'value',
-                        className: "text-2xl font-bold text-gray-800"
-                      }, formatCurrency(results.netAnnualSavings || 0)),
-                      React.createElement('div', {
-                        key: 'label',
-                        className: "text-sm text-gray-600"
-                      }, 'Net Annual Savings')
-                    ])
-                  ])
-                ]),
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Average Time to Hire (days)</label>
+                      <input
+                        type="number"
+                        value={inputs.avgTimeToHire}
+                        onChange={(e) => handleInputChange('avgTimeToHire', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
 
-                // Cost Comparison
-                React.createElement('div', {
-                  key: 'cost-comparison',
-                  className: "bg-white rounded-lg shadow-lg p-6"
-                }, [
-                  React.createElement('h2', {
-                    key: 'title',
-                    className: "text-xl font-bold text-gray-800 mb-4 flex items-center"
-                  }, [
-                    React.createElement(DollarSign, {
-                      key: 'icon',
-                      className: "h-5 w-5 mr-2 text-blue-600"
-                    }),
-                    'Cost Comparison'
-                  ]),
-                  
-                  React.createElement('div', {
-                    key: 'comparisons',
-                    className: "space-y-3"
-                  }, [
-                    React.createElement('div', {
-                      key: 'current',
-                      className: "flex justify-between items-center p-3 bg-red-50 rounded"
-                    }, [
-                      React.createElement('span', {
-                        key: 'label',
-                        className: "text-gray-700"
-                      }, 'Current Annual Cost'),
-                      React.createElement('span', {
-                        key: 'value',
-                        className: "font-bold text-red-600"
-                      }, formatCurrency(results.currentAnnualCost || 0))
-                    ]),
-                    
-                    React.createElement('div', {
-                      key: 'with-ats',
-                      className: "flex justify-between items-center p-3 bg-green-50 rounded"
-                    }, [
-                      React.createElement('span', {
-                        key: 'label',
-                        className: "text-gray-700"
-                      }, 'With jisr.net ATS'),
-                      React.createElement('span', {
-                        key: 'value',
-                        className: "font-bold text-green-600"
-                      }, formatCurrency(results.newAnnualCost || 0))
-                    ]),
-                    
-                    React.createElement('div', {
-                      key: 'savings',
-                      className: "flex justify-between items-center p-3 bg-blue-50 rounded border-2 border-blue-200"
-                    }, [
-                      React.createElement('span', {
-                        key: 'label',
-                        className: "text-gray-700 font-medium"
-                      }, 'Total Savings'),
-                      React.createElement('span', {
-                        key: 'value',
-                        className: "font-bold text-blue-600"
-                      }, formatCurrency(results.annualSavings || 0))
-                    ])
-                  ])
-                ]),
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">HR Hourly Rate ($)</label>
+                      <input
+                        type="number"
+                        value={inputs.hrHourlyRate}
+                        onChange={(e) => handleInputChange('hrHourlyRate', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
 
-                // Additional Benefits
-                React.createElement('div', {
-                  key: 'additional-benefits',
-                  className: "bg-white rounded-lg shadow-lg p-6"
-                }, [
-                  React.createElement('h2', {
-                    key: 'title',
-                    className: "text-xl font-bold text-gray-800 mb-4 flex items-center"
-                  }, [
-                    React.createElement(CheckCircle, {
-                      key: 'icon',
-                      className: "h-5 w-5 mr-2 text-green-600"
-                    }),
-                    'Additional Benefits'
-                  ]),
-                  
-                  React.createElement('div', {
-                    key: 'benefits',
-                    className: "space-y-3"
-                  }, [
-                    React.createElement('div', {
-                      key: 'time-reduction',
-                      className: "flex items-center justify-between p-3 bg-gray-50 rounded"
-                    }, [
-                      React.createElement('div', {
-                        key: 'label-container',
-                        className: "flex items-center"
-                      }, [
-                        React.createElement(Clock, {
-                          key: 'icon',
-                          className: "h-4 w-4 mr-2 text-blue-600"
-                        }),
-                        React.createElement('span', {
-                          key: 'label',
-                          className: "text-gray-700"
-                        }, 'Time to Hire Reduction')
-                      ]),
-                      React.createElement('span', {
-                        key: 'value',
-                        className: "font-bold text-blue-600"
-                      }, `${Math.round(inputs.avgTimeToHire - (results.improvedTimeToHire || 0))} days`)
-                    ]),
-                    
-                    React.createElement('div', {
-                      key: 'hours-saved',
-                      className: "flex items-center justify-between p-3 bg-gray-50 rounded"
-                    }, [
-                      React.createElement('div', {
-                        key: 'label-container',
-                        className: "flex items-center"
-                      }, [
-                        React.createElement(Users, {
-                          key: 'icon',
-                          className: "h-4 w-4 mr-2 text-blue-600"
-                        }),
-                        React.createElement('span', {
-                          key: 'label',
-                          className: "text-gray-700"
-                        }, 'HR Hours Saved Annually')
-                      ]),
-                      React.createElement('span', {
-                        key: 'value',
-                        className: "font-bold text-blue-600"
-                      }, `${Math.round(results.timeSavedHours || 0)} hours`)
-                    ]),
-                    
-                    React.createElement('div', {
-                      key: 'turnover-improvement',
-                      className: "flex items-center justify-between p-3 bg-gray-50 rounded"
-                    }, [
-                      React.createElement('div', {
-                        key: 'label-container',
-                        className: "flex items-center"
-                      }, [
-                        React.createElement(TrendingUp, {
-                          key: 'icon',
-                          className: "h-4 w-4 mr-2 text-blue-600"
-                        }),
-                        React.createElement('span', {
-                          key: 'label',
-                          className: "text-gray-700"
-                        }, 'Turnover Rate Improvement')
-                      ]),
-                      React.createElement('span', {
-                        key: 'value',
-                        className: "font-bold text-blue-600"
-                      }, `${((inputs.turnoverRate - (results.improvedTurnoverRate || 0)) / inputs.turnoverRate * 100).toFixed(1)}%`)
-                    ])
-                  ])
-                ])
-              ])
-            ]),
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Hours Spent Per Hire</label>
+                      <input
+                        type="number"
+                        value={inputs.hoursPerHire}
+                        onChange={(e) => handleInputChange('hoursPerHire', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
 
-            // Footer
-            React.createElement('div', {
-              key: 'footer',
-              className: "mt-8 text-center bg-white rounded-lg shadow-lg p-6"
-            }, [
-              React.createElement('h3', {
-                key: 'footer-title',
-                className: "text-lg font-bold text-gray-800 mb-2"
-              }, 'Ready to Transform Your Hiring Process?'),
-              React.createElement('p', {
-                key: 'footer-text',
-                className: "text-gray-600 mb-4"
-              }, "jisr.net's ATS solution helps companies reduce hiring time by 40% and costs by 35%"),
-              React.createElement('div', {
-                key: 'footer-buttons',
-                className: "flex justify-center space-x-4"
-              }, [
-                React.createElement('button', {
-                  key: 'trial-button',
-                  className: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                }, 'Start Free Trial'),
-                React.createElement('button', {
-                  key: 'demo-button',
-                  className: "border border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors"
-                }, 'Schedule Demo')
-              ])
-            ])
-          ]);
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Cost Per Hire ($)</label>
+                      <input
+                        type="number"
+                        value={inputs.recruitmentCosts}
+                        onChange={(e) => handleInputChange('recruitmentCosts', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Employee Turnover Rate (%)</label>
+                      <input
+                        type="number"
+                        value={inputs.turnoverRate}
+                        onChange={(e) => handleInputChange('turnoverRate', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+                    <div className="border-t pt-4">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">jisr.net ATS Monthly Fee ($)</label>
+                      <input
+                        type="number"
+                        value={inputs.atsMonthlyFee}
+                        onChange={(e) => handleInputChange('atsMonthlyFee', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Results Panel */}
+                <div className="space-y-6">
+                  {/* ROI Summary */}
+                  <div className="bg-white rounded-lg shadow-lg p-6">
+                    <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                      <TrendingUp className="h-5 w-5 mr-2 text-green-600" />
+                      ROI Summary
+                    </h2>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center p-4 bg-green-50 rounded-lg">
+                        <div className="text-3xl font-bold text-green-600">
+                          {results.roiPercentage > 0 ? '+' : ''}{Math.round(results.roiPercentage || 0)}%
+                        </div>
+                        <div className="text-sm text-gray-600">Annual ROI</div>
+                      </div>
+                      
+                      <div className="text-center p-4 bg-blue-50 rounded-lg">
+                        <div className="text-3xl font-bold text-blue-600">
+                          {Math.round(results.paybackMonths || 0)}
+                        </div>
+                        <div className="text-sm text-gray-600">Payback (months)</div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-gray-800">
+                          {formatCurrency(results.netAnnualSavings || 0)}
+                        </div>
+                        <div className="text-sm text-gray-600">Net Annual Savings</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Cost Comparison */}
+                  <div className="bg-white rounded-lg shadow-lg p-6">
+                    <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                      <DollarSign className="h-5 w-5 mr-2 text-blue-600" />
+                      Cost Comparison
+                    </h2>
+                    
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center p-3 bg-red-50 rounded">
+                        <span className="text-gray-700">Current Annual Cost</span>
+                        <span className="font-bold text-red-600">{formatCurrency(results.currentAnnualCost || 0)}</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center p-3 bg-green-50 rounded">
+                        <span className="text-gray-700">With jisr.net ATS</span>
+                        <span className="font-bold text-green-600">{formatCurrency(results.newAnnualCost || 0)}</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center p-3 bg-blue-50 rounded border-2 border-blue-200">
+                        <span className="text-gray-700 font-medium">Total Savings</span>
+                        <span className="font-bold text-blue-600">{formatCurrency(results.annualSavings || 0)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Additional Benefits */}
+                  <div className="bg-white rounded-lg shadow-lg p-6">
+                    <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                      <CheckCircle className="h-5 w-5 mr-2 text-green-600" />
+                      Additional Benefits
+                    </h2>
+                    
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                        <div className="flex items-center">
+                          <Clock className="h-4 w-4 mr-2 text-blue-600" />
+                          <span className="text-gray-700">Time to Hire Reduction</span>
+                        </div>
+                        <span className="font-bold text-blue-600">
+                          {Math.round(inputs.avgTimeToHire - (results.improvedTimeToHire || 0))} days
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                        <div className="flex items-center">
+                          <Users className="h-4 w-4 mr-2 text-blue-600" />
+                          <span className="text-gray-700">HR Hours Saved Annually</span>
+                        </div>
+                        <span className="font-bold text-blue-600">
+                          {Math.round(results.timeSavedHours || 0)} hours
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                        <div className="flex items-center">
+                          <TrendingUp className="h-4 w-4 mr-2 text-blue-600" />
+                          <span className="text-gray-700">Turnover Rate Improvement</span>
+                        </div>
+                        <span className="font-bold text-blue-600">
+                          {inputs.turnoverRate > 0 ? 
+                            ((inputs.turnoverRate - (results.improvedTurnoverRate || 0)) / inputs.turnoverRate * 100).toFixed(1) 
+                            : 0}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="mt-8 text-center bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-2">Ready to Transform Your Hiring Process?</h3>
+                <p className="text-gray-600 mb-4">
+                  jisr.net's ATS solution helps companies reduce hiring time by 40% and costs by 35%
+                </p>
+                <div className="flex justify-center space-x-4">
+                  <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Start Free Trial
+                  </button>
+                  <button className="border border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors">
+                    Schedule Demo
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
         };
 
-        ReactDOM.render(React.createElement(ATSROICalculator), document.getElementById('root'));
+        // Render with error handling
+        try {
+          const container = document.getElementById('root');
+          if (ReactDOM.createRoot) {
+            const root = ReactDOM.createRoot(container);
+            root.render(<ATSROICalculator />);
+          } else {
+            ReactDOM.render(<ATSROICalculator />, container);
+          }
+        } catch (error) {
+          console.error('Error rendering React app:', error);
+          document.getElementById('root').innerHTML = `
+            <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif; color: red;">
+              <h1>Error Loading Calculator</h1>
+              <p>Error: ${error.message}</p>
+              <p>Please check the browser console for more details.</p>
+            </div>
+          `;
+        }
     </script>
 </body>
 </html>
