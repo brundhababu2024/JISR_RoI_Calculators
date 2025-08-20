@@ -37,7 +37,7 @@
             hrHourlyRate: 35,
             hoursPerHire: 40,
             recruitmentCosts: 5000,
-            atsMonthlyFee: 299,
+            atsMonthlyFee: 15000,
             turnoverRate: 15
           });
 
@@ -68,7 +68,7 @@
             const newAnnualCost = newMonthlyCost * 12;
 
             const annualSavings = currentAnnualCost - newAnnualCost;
-            const atsAnnualCost = inputs.atsMonthlyFee * 12;
+            const atsAnnualCost = inputs.atsMonthlyFee ;
             const netAnnualSavings = annualSavings - atsAnnualCost;
             const roiPercentage = (netAnnualSavings / atsAnnualCost) * 100;
             const paybackMonths = atsAnnualCost / (annualSavings / 12);
@@ -250,12 +250,12 @@
                     })
                   ]),
 
-                  // ATS Monthly Fee
+                  // ATS Annual Fee
                   e('div', { key: 'ats-fee', className: "border-t pt-4" }, [
                     e('label', {
                       key: 'label',
                       className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'jisr.net ATS Monthly Fee (SAR)'),
+                    }, 'jisr.net ATS Yearly Fee (SAR)'),
                     e('input', {
                       key: 'input',
                       type: 'number',
