@@ -53,8 +53,8 @@
             const currentMonthlyCost = monthlyRecruitmentCost + monthlyHRTimeCost;
             const currentAnnualCost = currentMonthlyCost * 12;
 
-            const timeReduction = 0.5;
-            const costReduction = 0.25;
+            const timeReduction = 0.4;
+            const costReduction = 0.3;
             const turnoverReduction = 0.25;
 
             const improvedTimeToHire = inputs.avgTimeToHire * (1 - timeReduction);
@@ -470,10 +470,10 @@
                 key: 'footer-buttons',
                 className: "flex justify-center space-x-4"
               }, [
-                e('button', {
-                  key: 'trial-button',
-                  className: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                }, 'Start Free Trial'),
+                //e('button', {
+                //  key: 'trial-button',
+                //  className: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                //}, 'Start Free Trial'),
                 e('button', {
                   key: 'demo-button',
                   className: "border border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors"
