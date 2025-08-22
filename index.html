@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATS ROI Calculator - Jisr</title>
+    <title>ATS ROI Calculator - jisr.net</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,12 +34,11 @@
           const [inputs, setInputs] = useState({
             monthlyHires: 10,
             avgTimeToHire: 30,
-            hrMonthlyRate: 10000,
+            hrHourlyRate: 35,
             hoursPerHire: 40,
-            AvgSalaryPerHire: 15000,
+            recruitmentCosts: 5000,
             atsMonthlyFee: 15000,
-            turnoverRate: 15,
-            badHireRate: 0.1
+            turnoverRate: 15
           });
 
           const [results, setResults] = useState({});
@@ -48,7 +47,7 @@
             calculateROI();
           }, [inputs]);
 
-          const calculateROI = () => { //TO DO
+          const calculateROI = () => {
             const monthlyRecruitmentCost = inputs.monthlyHires * inputs.recruitmentCosts;
             const monthlyHRTimeCost = inputs.monthlyHires * inputs.hoursPerHire * inputs.hrHourlyRate;
             const currentMonthlyCost = monthlyRecruitmentCost + monthlyHRTimeCost;
@@ -60,11 +59,11 @@
 
             const improvedTimeToHire = inputs.avgTimeToHire * (1 - timeReduction);
             const improvedHoursPerHire = inputs.hoursPerHire * (1 - timeReduction);
-            const improvedRecruitmentCosts = inputs.AvgSalaryPerHire * (1 - costReduction);
-            //const improvedTurnoverRate = inputs.turnoverRate * (1 - turnoverReduction);
+            const improvedRecruitmentCosts = inputs.recruitmentCosts * (1 - costReduction);
+            const improvedTurnoverRate = inputs.turnoverRate * (1 - turnoverReduction);
 
             const newMonthlyRecruitmentCost = inputs.monthlyHires * improvedRecruitmentCosts;
-            const newMonthlyHRTimeCost = inputs.monthlyHires * improvedHoursPerHire * inputs.hrMonthlyRate /160; //assuming 160 working hours per month
+            const newMonthlyHRTimeCost = inputs.monthlyHires * improvedHoursPerHire * inputs.hrHourlyRate;
             const newMonthlyCost = newMonthlyRecruitmentCost + newMonthlyHRTimeCost + inputs.atsMonthlyFee;
             const newAnnualCost = newMonthlyCost * 12;
 
@@ -136,11 +135,11 @@
               e('p', {
                 key: 'subtitle',
                 className: "text-lg text-gray-600"
-              }, "Calculate your return on investment with Jisr's ATS solution"),
+              }, "Calculate your return on investment with jisr.net's ATS solution"),
               e('div', {
                 key: 'brand',
                 className: "mt-2 text-sm text-blue-600 font-medium"
-              }, 'Jisr ATS - Streamline Your Hiring Process')
+              }, 'jisr.net - Streamline Your Hiring Process')
             ]),
 
             e('div', {
@@ -196,12 +195,12 @@
                     e('label', {
                       key: 'label',
                       className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'HR Monthly Salary (SAR)'),
+                    }, 'HR Hourly Rate (SAR)'),
                     e('input', {
                       key: 'input',
                       type: 'number',
-                      value: inputs.hrMonthlyRate,
-                      onChange: (event) => handleInputChange('hrMonthlyRate', event.target.value),
+                      value: inputs.hrHourlyRate,
+                      onChange: (event) => handleInputChange('hrHourlyRate', event.target.value),
                       className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     })
                   ]),
@@ -221,17 +220,17 @@
                     })
                   ]),
 
-                  // Salary Per Hire
+                  // Cost Per Hire
                   e('div', { key: 'cost-per-hire' }, [
                     e('label', {
                       key: 'label',
                       className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Monthly Salary Per Hire (SAR)'),
+                    }, 'Cost Per Hire (SAR)'),
                     e('input', {
                       key: 'input',
                       type: 'number',
-                      value: inputs.AvgSalaryPerHire,
-                      onChange: (event) => handleInputChange('AvgSalaryPerHire', event.target.value),
+                      value: inputs.recruitmentCosts,
+                      onChange: (event) => handleInputChange('recruitmentCosts', event.target.value),
                       className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     })
                   ]),
@@ -256,7 +255,7 @@
                     e('label', {
                       key: 'label',
                       className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Jisr ATS Yearly Fee (SAR)'),
+                    }, 'jisr.net ATS Yearly Fee (SAR)'),
                     e('input', {
                       key: 'input',
                       type: 'number',
@@ -371,7 +370,7 @@
                       e('span', {
                         key: 'label',
                         className: "text-gray-700"
-                      }, 'With Jisr ATS'),
+                      }, 'With jisr.net ATS'),
                       e('span', {
                         key: 'value',
                         className: "font-bold text-green-600"
@@ -466,7 +465,7 @@
               e('p', {
                 key: 'footer-text',
                 className: "text-gray-600 mb-4"
-              }, "Jisr's ATS solution helps companies reduce hiring time by 40% and costs by 35%"),
+              }, "jisr.net's ATS solution helps companies reduce hiring time by 40% and costs by 35%"),
               e('div', {
                 key: 'footer-buttons',
                 className: "flex justify-center space-x-4"
