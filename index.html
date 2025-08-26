@@ -26,10 +26,6 @@
     <script>
         const { useState, useEffect, createElement: e } = React;
 
-        // Simple icon components
-        const Calculator = ({ className }) => 
-            e('div', { className: className + ' icon', style: { background: 'currentColor', maskImage: 'url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0iZmVhdGhlciBmZWF0aGVyLWNhbGN1bGF0b3IiPjxyZWN0IHg9IjQiIHk9IjIiIHdpZHRoPSIxNiIgaGVpZ2h0PSIyMCIgcng9IjIiLz48bGluZSB4MT0iOCIgeTE9IjYiIHgyPSIxNiIgeTI9IjYiLz48bGluZSB4MT0iMTYiIHkxPSIxMCIgeDI9IjgiIHkyPSIxMCIvPjxsaW5lIHgxPSI4IiB5MT0iMTQiIHgyPSIxMiIgeTI9IjE0Ii8+PGxpbmUgeDE9IjgiIHkxPSIxOCIgeDI9IjEyIiB5Mj0iMTgiLz48cmVjdCB4PSIxNSIgeT0iMTMiIHdpZHRoPSIyIiBoZWlnaHQ9IjYiLz48L3N2Zz4=")', maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' } });
-
         const ATSROICalculator = () => {
           const [inputs, setInputs] = useState({
             monthlyHires: 10,
@@ -48,85 +44,43 @@
           }, [inputs]);
 
           const calculateROI = () => {
-
-// calculations start
+            // Fixed variable references - using inputs object
             const perCandidateTimeSaved = 5;
-            const TotalTimeSavedPerMonth = monthlyHires * perCandidateTimeSaved;
-            const HRHourlyRate = hrMonthlyRate / 160;
+            const TotalTimeSavedPerMonth = inputs.monthlyHires * perCandidateTimeSaved;
+            const HRHourlyRate = inputs.hrMonthlyRate / 160;
             const HRCostSavedPerYear = HRHourlyRate * TotalTimeSavedPerMonth * 12;
-            const AnnualSalaryPerHire = salaryPerHire * 12;
-            const AnnualHires = monthlyHires * 12;
+            const AnnualSalaryPerHire = inputs.salaryPerHire * 12;
+            const AnnualHires = inputs.monthlyHires * 12;
             const BadHiresPerYear = 0.1 * AnnualHires;
-            const CostPerBadHire  = 0.3 * AnnualSalaryPerHire;
+            const CostPerBadHire = 0.3 * AnnualSalaryPerHire;
             const BadHireLossAvoidedPerYear = 0.5 * BadHiresPerYear * CostPerBadHire;
-            const NetSavingsPerYear = BadHireLossAvoidedPerYear + HRCostSavedPerYear - atsAnnualFee;
-            const NetSavingsPerMonth = NetSavingsPerYear/12;
-            const Roi = NetSavingsPerYear / atsAnnualFee;
-            const HRHoursSavedAnnually = perCandidateTimeSaved * monthlyHires;
-            const paybackPeriodInMonths = NetSavingsPerYear * 12 / atsAnnualFee;
-            const TimeToHireReduction = 0.45 * avgTimeToHire;
+            const NetSavingsPerYear = BadHireLossAvoidedPerYear + HRCostSavedPerYear - inputs.atsAnnualFee;
+            const NetSavingsPerMonth = NetSavingsPerYear / 12;
+            const Roi = (NetSavingsPerYear / inputs.atsAnnualFee) * 100;
+            const HRHoursSavedAnnually = perCandidateTimeSaved * inputs.monthlyHires * 12;
+            const paybackPeriodInMonths = inputs.atsAnnualFee / (NetSavingsPerYear / 12);
+            const TimeToHireReduction = 0.45 * inputs.avgTimeToHire;
             
-            const CurrentAnnualCost =  99999999; 
-            const NewAnnualCost = 99999999;
-
-
-//—---------------------
-
-
-            //const monthlyRecruitmentCost = inputs.monthlyHires * inputs.salaryPerHire;
-            //const monthlyHRTimeCost = inputs.monthlyHires * inputs.hoursPerHire * inputs.hrMonthlyRate;
-            //const currentMonthlyCost = monthlyRecruitmentCost + monthlyHRTimeCost;
-            //const currentAnnualCost = currentMonthlyCost * 12;
-
-            //const timeReduction = 0.4;
-            //const costReduction = 0.3;
-            //const turnoverReduction = 0.25;
-
-            //const improvedTimeToHire = inputs.avgTimeToHire * (1 - timeReduction);
-            //const improvedHoursPerHire = inputs.hoursPerHire * (1 - timeReduction);
-            //const improvedsalaryPerHire = inputs.salaryPerHire * (1 - costReduction);
-            //const improvedTurnoverRate = inputs.turnoverRate * (1 - turnoverReduction);
-
-            //const newMonthlyRecruitmentCost = inputs.monthlyHires * improvedsalaryPerHire;
-            //const newMonthlyHRTimeCost = inputs.monthlyHires * improvedHoursPerHire * inputs.hrMonthlyRate;
-            //const newMonthlyCost = newMonthlyRecruitmentCost + newMonthlyHRTimeCost + inputs.atsAnnualFee;
-            //const newAnnualCost = newMonthlyCost * 12;
-
-            //const annualSavings = currentAnnualCost - newAnnualCost;
-            //const atsAnnualCost = inputs.atsAnnualFee ;
-            //const netAnnualSavings = annualSavings - atsAnnualCost;
-            //const roiPercentage = (netAnnualSavings / atsAnnualCost) * 100;
-            //const paybackMonths = atsAnnualCost / (annualSavings / 12);
-
-            //const timeSavedHours = inputs.monthlyHires * (inputs.hoursPerHire - improvedHoursPerHire) * 12;
+            const CurrentAnnualCost = HRCostSavedPerYear + (BadHiresPerYear * CostPerBadHire);
+            const NewAnnualCost = inputs.atsAnnualFee;
 
             setResults({
-              //currentAnnualCost,
-              //newAnnualCost,
-              //annualSavings,
-              //netAnnualSavings,
-              //roiPercentage,
-              //paybackMonths,
-              //timeSavedHours,
-              //improvedTimeToHire,
-              //improvedTurnoverRate
-
-            TotalTimeSavedPerMonth,
-            HRHourlyRate,
-            HRCostSavedPerYear,
-            AnnualSalaryPerHire,
-            AnnualHires,
-            BadHiresPerYear,
-            CostPerBadHire,
-            BadHireLossAvoidedPerYear ,
-            NetSavingsPerYear,
-            NetSavingsPerMonth,
-            Roi,
-            HRHoursSavedAnnually,
-            paybackPeriodInMonths,
-            TimeToHireReduction, 
-            CurrentAnnualCost,
-            NewAnnualCost
+              TotalTimeSavedPerMonth,
+              HRHourlyRate,
+              HRCostSavedPerYear,
+              AnnualSalaryPerHire,
+              AnnualHires,
+              BadHiresPerYear,
+              CostPerBadHire,
+              BadHireLossAvoidedPerYear,
+              NetSavingsPerYear,
+              NetSavingsPerMonth,
+              Roi,
+              HRHoursSavedAnnually,
+              paybackPeriodInMonths,
+              TimeToHireReduction, 
+              CurrentAnnualCost,
+              NewAnnualCost
             });
           };
 
@@ -196,7 +150,7 @@
                 e('h2', {
                   key: 'input-title',
                   className: "text-xl font-bold text-gray-800 mb-6"
-                }, '📊 Your Current Hiring Metrics'),
+                }, 'Your Current Hiring Metrics'),
                 
                 e('div', {
                   key: 'input-fields',
@@ -207,7 +161,7 @@
                     e('label', {
                       key: 'label',
                       className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Hires per Month’'),
+                    }, 'Hires per Month'),
                     e('input', {
                       key: 'input',
                       type: 'number',
@@ -232,21 +186,7 @@
                     })
                   ]),
 
-                  // Salary Per Hire
-                  e('div', { key: 'salary-per-hire' }, [
-                    e('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, Salary Per Hire (SAR)'),
-                    e('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.salaryPerHire,
-                      onChange: (event) => handleInputChange('salaryPerHire', event.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-
- // HR Salary
+                  // HR Salary
                   e('div', { key: 'hr-rate' }, [
                     e('label', {
                       key: 'label',
@@ -256,32 +196,17 @@
                       key: 'input',
                       type: 'number',
                       value: inputs.hrMonthlyRate,
-                      onChange: (event) => handleInputChange(hrMonthlyRate, event.target.value),
+                      onChange: (event) => handleInputChange('hrMonthlyRate', event.target.value),
                       className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     })
                   ]),
-
-                  // Hours Per Hire
-                //  e('div', { key: 'hours-per-hire' }, [
-                //    e('label', {
-                 //     key: 'label',
-                 //     className: "block text-sm font-medium text-gray-700 mb-2"
-                 //   }, 'Hours Spent Per Hire'),
-                 //   e('input', {
-                 //     key: 'input',
-                 //     type: 'number',
-                 //     value: inputs.hoursPerHire,
-                 //     onChange: (event) => handleInputChange('hoursPerHire', event.target.value),
-                 //     className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                   // })
-                 // ]),
 
                   // Salary Per Hire
                   e('div', { key: 'salary-per-hire' }, [
                     e('label', {
                       key: 'label',
                       className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, Salary Per Hire (SAR)'),
+                    }, 'Monthly Salary Per Hire (SAR)'),
                     e('input', {
                       key: 'input',
                       type: 'number',
@@ -290,21 +215,6 @@
                       className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     })
                   ]),
-
-                  // Turnover Rate
-                  //e('div', { key: 'turnover-rate' }, [
-                  //  e('label', {
-                  //    key: 'label',
-                  //    className: "block text-sm font-medium text-gray-700 mb-2"
-                  //  }, 'Employee Turnover Rate (%)'),
-                  //  e('input', {
-                  //    key: 'input',
-                  //    type: 'number',
-                  //    value: inputs.turnoverRate,
-                  //    onChange: (event) => handleInputChange('turnoverRate', event.target.value),
-                  //    className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  //  })
-                  //]),
 
                   // ATS Annual Fee
                   e('div', { key: 'ats-fee', className: "border-t pt-4" }, [
@@ -336,7 +246,7 @@
                   e('h2', {
                     key: 'title',
                     className: "text-xl font-bold text-gray-800 mb-4"
-                  }, '📈 ROI Summary'),
+                  }, 'ROI Summary'),
                   
                   e('div', {
                     key: 'roi-grid',
@@ -349,7 +259,7 @@
                       e('div', {
                         key: 'value',
                         className: "text-3xl font-bold text-green-600"
-                      }, `${results.roi > 0 ? '+' : ''}${Math.round(results.roi || 0)}%`),
+                      }, `${results.Roi > 0 ? '+' : ''}${Math.round(results.Roi || 0)}%`),
                       e('div', {
                         key: 'label',
                         className: "text-sm text-gray-600"
@@ -371,7 +281,6 @@
                     ])
                   ]),
 
-                    
                   e('div', {
                     key: 'net-savings',
                     className: "mt-4 p-4 bg-gray-50 rounded-lg"
@@ -400,7 +309,7 @@
                   e('h2', {
                     key: 'title',
                     className: "text-xl font-bold text-gray-800 mb-4"
-                  }, '💰 Cost Comparison'),
+                  }, 'Cost Comparison'),
                   
                   e('div', {
                     key: 'comparisons',
@@ -417,10 +326,9 @@
                       e('span', {
                         key: 'value',
                         className: "font-bold text-red-600"
-                      }, formatCurrency(results.currentAnnualCost || 0))
+                      }, formatCurrency(results.CurrentAnnualCost || 0))
                     ]),
 
-                      
                     e('div', {
                       key: 'with-ats',
                       className: "flex justify-between items-center p-3 bg-green-50 rounded"
@@ -432,7 +340,7 @@
                       e('span', {
                         key: 'value',
                         className: "font-bold text-green-600"
-                      }, formatCurrency(results.newAnnualCost || 0))
+                      }, formatCurrency(results.NewAnnualCost || 0))
                     ]),
                     
                     e('div', {
@@ -459,7 +367,7 @@
                   e('h2', {
                     key: 'title',
                     className: "text-xl font-bold text-gray-800 mb-4"
-                  }, '✅ Additional Benefits'),
+                  }, 'Additional Benefits'),
                   
                   e('div', {
                     key: 'benefits',
@@ -472,11 +380,11 @@
                       e('span', {
                         key: 'label',
                         className: "text-gray-700"
-                      }, '⏱️ Time to Hire Reduction'),
+                      }, 'Time to Hire Reduction'),
                       e('span', {
                         key: 'value',
                         className: "font-bold text-blue-600"
-                      }, `${Math.round(TimeToHireReduction || 0)} days`)
+                      }, `${Math.round(results.TimeToHireReduction || 0)} days`)
                     ]),
                     
                     e('div', {
@@ -486,26 +394,12 @@
                       e('span', {
                         key: 'label',
                         className: "text-gray-700"
-                      }, '👥 HR Hours Saved Annually'),
+                      }, 'HR Hours Saved Annually'),
                       e('span', {
                         key: 'value',
                         className: "font-bold text-blue-600"
                       }, `${Math.round(results.HRHoursSavedAnnually || 0)} hours`)
-                    ]),
-                    
-                    //e('div', {
-                    //  key: 'turnover-improvement',
-                    //  className: "flex items-center justify-between p-3 bg-gray-50 rounded"
-                    //}, [
-                    //  e('span', {
-                    //    key: 'label',
-                    //    className: "text-gray-700"
-                    //  }, '📊 Turnover Rate Improvement'),
-                    //  e('span', {
-                    //    key: 'value',
-                    //    className: "font-bold text-blue-600"
-                    //  }, `${inputs.turnoverRate > 0 ? ((inputs.turnoverRate - (results.improvedTurnoverRate || 0)) / inputs.turnoverRate * 100).toFixed(1) : 0}%`)
-                    //])
+                    ])
                   ])
                 ])
               ])
@@ -528,13 +422,9 @@
                 key: 'footer-buttons',
                 className: "flex justify-center space-x-4"
               }, [
-                //e('button', {
-                //  key: 'trial-button',
-                //  className: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                //}, 'Start Free Trial'),
                 e('button', {
                   key: 'demo-button',
-                  className:  "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  className: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 }, 'Schedule Demo')
               ])
             ])
@@ -546,5 +436,3 @@
     </script>
 </body>
 </html>
-
-
