@@ -36,8 +36,8 @@
             avgTimeToHire: 30,
             hrMonthlyRate: 10000,
             hoursPerHire: 40,
-            salaryPerHire: 5000,
-            atsMonthlyFee: 15000,
+            salaryPerHire: 15000,
+            atsAnnualFee: 15000,
             turnoverRate: 15
           });
 
@@ -64,11 +64,11 @@
 
             const newMonthlyRecruitmentCost = inputs.monthlyHires * improvedsalaryPerHire;
             const newMonthlyHRTimeCost = inputs.monthlyHires * improvedHoursPerHire * inputs.hrMonthlyRate;
-            const newMonthlyCost = newMonthlyRecruitmentCost + newMonthlyHRTimeCost + inputs.atsMonthlyFee;
+            const newMonthlyCost = newMonthlyRecruitmentCost + newMonthlyHRTimeCost + inputs.atsAnnualFee;
             const newAnnualCost = newMonthlyCost * 12;
 
             const annualSavings = currentAnnualCost - newAnnualCost;
-            const atsAnnualCost = inputs.atsMonthlyFee ;
+            const atsAnnualCost = inputs.atsAnnualFee ;
             const netAnnualSavings = annualSavings - atsAnnualCost;
             const roiPercentage = (netAnnualSavings / atsAnnualCost) * 100;
             const paybackMonths = atsAnnualCost / (annualSavings / 12);
@@ -273,8 +273,8 @@
                     e('input', {
                       key: 'input',
                       type: 'number',
-                      value: inputs.atsMonthlyFee,
-                      onChange: (event) => handleInputChange('atsMonthlyFee', event.target.value),
+                      value: inputs.atsAnnualFee,
+                      onChange: (event) => handleInputChange('atsAnnualFee', event.target.value),
                       className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50"
                     })
                   ])
