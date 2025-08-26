@@ -36,7 +36,7 @@
             avgTimeToHire: 30,
             hrMonthlyRate: 10000,
             hoursPerHire: 40,
-            recruitmentCosts: 5000,
+            salaryPerHire: 5000,
             atsMonthlyFee: 15000,
             turnoverRate: 15
           });
@@ -48,7 +48,7 @@
           }, [inputs]);
 
           const calculateROI = () => {
-            const monthlyRecruitmentCost = inputs.monthlyHires * inputs.recruitmentCosts;
+            const monthlyRecruitmentCost = inputs.monthlyHires * inputs.salaryPerHire;
             const monthlyHRTimeCost = inputs.monthlyHires * inputs.hoursPerHire * inputs.hrMonthlyRate;
             const currentMonthlyCost = monthlyRecruitmentCost + monthlyHRTimeCost;
             const currentAnnualCost = currentMonthlyCost * 12;
@@ -59,10 +59,10 @@
 
             const improvedTimeToHire = inputs.avgTimeToHire * (1 - timeReduction);
             const improvedHoursPerHire = inputs.hoursPerHire * (1 - timeReduction);
-            const improvedRecruitmentCosts = inputs.recruitmentCosts * (1 - costReduction);
+            const improvedsalaryPerHire = inputs.salaryPerHire * (1 - costReduction);
             const improvedTurnoverRate = inputs.turnoverRate * (1 - turnoverReduction);
 
-            const newMonthlyRecruitmentCost = inputs.monthlyHires * improvedRecruitmentCosts;
+            const newMonthlyRecruitmentCost = inputs.monthlyHires * improvedsalaryPerHire;
             const newMonthlyHRTimeCost = inputs.monthlyHires * improvedHoursPerHire * inputs.hrMonthlyRate;
             const newMonthlyCost = newMonthlyRecruitmentCost + newMonthlyHRTimeCost + inputs.atsMonthlyFee;
             const newAnnualCost = newMonthlyCost * 12;
@@ -199,8 +199,8 @@
                     e('input', {
                       key: 'input',
                       type: 'number',
-                      value: inputs.recruitmentCosts,
-                      onChange: (event) => handleInputChange('recruitmentCosts', event.target.value),
+                      value: inputs.salaryPerHire,
+                      onChange: (event) => handleInputChange('salaryPerHire', event.target.value),
                       className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     })
 
@@ -243,8 +243,8 @@
                     e('input', {
                       key: 'input',
                       type: 'number',
-                      value: inputs.recruitmentCosts,
-                      onChange: (event) => handleInputChange('recruitmentCosts', event.target.value),
+                      value: inputs.salaryPerHire,
+                      onChange: (event) => handleInputChange('salaryPerHire', event.target.value),
                       className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     })
                   ]),
