@@ -48,43 +48,85 @@
           }, [inputs]);
 
           const calculateROI = () => {
-            const monthlyRecruitmentCost = inputs.monthlyHires * inputs.salaryPerHire;
-            const monthlyHRTimeCost = inputs.monthlyHires * inputs.hoursPerHire * inputs.hrMonthlyRate;
-            const currentMonthlyCost = monthlyRecruitmentCost + monthlyHRTimeCost;
-            const currentAnnualCost = currentMonthlyCost * 12;
 
-            const timeReduction = 0.4;
-            const costReduction = 0.3;
-            const turnoverReduction = 0.25;
+// calculations start
+            const perCandidateTimeSaved = 5;
+            const TotalTimeSavedPerMonth = monthlyHires * perCandidateTimeSaved;
+            const HRHourlyRate = hrMonthlyRate / 160;
+            const HRCostSavedPerYear = HRHourlyRate * TotalTimeSavedPerMonth * 12;
+            const AnnualSalaryPerHire = salaryPerHire * 12;
+            const AnnualHires = monthlyHires * 12;
+            const BadHiresPerYear = 0.1 * AnnualHires;
+            const CostPerBadHire  = 0.3 * AnnualSalaryPerHire;
+            const BadHireLossAvoidedPerYear = 0.5 * BadHiresPerYear * CostPerBadHire;
+            const NetSavingsPerYear = BadHireLossAvoidedPerYear + HRCostSavedPerYear - atsAnnualFee;
+            const NetSavingsPerMonth = NetSavingsPerYear/12;
+            const Roi = NetSavingsPerYear / atsAnnualFee;
+            const HRHoursSavedAnnually = perCandidateTimeSaved * monthlyHires;
+            const paybackPeriodInMonths = NetSavingsPerYear * 12 / atsAnnualFee;
+            const TimeToHireReduction = 0.45 * avgTimeToHire;
+            
+            const CurrentAnnualCost =  99999999; 
+            const NewAnnualCost = 99999999;
 
-            const improvedTimeToHire = inputs.avgTimeToHire * (1 - timeReduction);
-            const improvedHoursPerHire = inputs.hoursPerHire * (1 - timeReduction);
-            const improvedsalaryPerHire = inputs.salaryPerHire * (1 - costReduction);
-            const improvedTurnoverRate = inputs.turnoverRate * (1 - turnoverReduction);
 
-            const newMonthlyRecruitmentCost = inputs.monthlyHires * improvedsalaryPerHire;
-            const newMonthlyHRTimeCost = inputs.monthlyHires * improvedHoursPerHire * inputs.hrMonthlyRate;
-            const newMonthlyCost = newMonthlyRecruitmentCost + newMonthlyHRTimeCost + inputs.atsAnnualFee;
-            const newAnnualCost = newMonthlyCost * 12;
+//—---------------------
 
-            const annualSavings = currentAnnualCost - newAnnualCost;
-            const atsAnnualCost = inputs.atsAnnualFee ;
-            const netAnnualSavings = annualSavings - atsAnnualCost;
-            const roiPercentage = (netAnnualSavings / atsAnnualCost) * 100;
-            const paybackMonths = atsAnnualCost / (annualSavings / 12);
 
-            const timeSavedHours = inputs.monthlyHires * (inputs.hoursPerHire - improvedHoursPerHire) * 12;
+            //const monthlyRecruitmentCost = inputs.monthlyHires * inputs.salaryPerHire;
+            //const monthlyHRTimeCost = inputs.monthlyHires * inputs.hoursPerHire * inputs.hrMonthlyRate;
+            //const currentMonthlyCost = monthlyRecruitmentCost + monthlyHRTimeCost;
+            //const currentAnnualCost = currentMonthlyCost * 12;
+
+            //const timeReduction = 0.4;
+            //const costReduction = 0.3;
+            //const turnoverReduction = 0.25;
+
+            //const improvedTimeToHire = inputs.avgTimeToHire * (1 - timeReduction);
+            //const improvedHoursPerHire = inputs.hoursPerHire * (1 - timeReduction);
+            //const improvedsalaryPerHire = inputs.salaryPerHire * (1 - costReduction);
+            //const improvedTurnoverRate = inputs.turnoverRate * (1 - turnoverReduction);
+
+            //const newMonthlyRecruitmentCost = inputs.monthlyHires * improvedsalaryPerHire;
+            //const newMonthlyHRTimeCost = inputs.monthlyHires * improvedHoursPerHire * inputs.hrMonthlyRate;
+            //const newMonthlyCost = newMonthlyRecruitmentCost + newMonthlyHRTimeCost + inputs.atsAnnualFee;
+            //const newAnnualCost = newMonthlyCost * 12;
+
+            //const annualSavings = currentAnnualCost - newAnnualCost;
+            //const atsAnnualCost = inputs.atsAnnualFee ;
+            //const netAnnualSavings = annualSavings - atsAnnualCost;
+            //const roiPercentage = (netAnnualSavings / atsAnnualCost) * 100;
+            //const paybackMonths = atsAnnualCost / (annualSavings / 12);
+
+            //const timeSavedHours = inputs.monthlyHires * (inputs.hoursPerHire - improvedHoursPerHire) * 12;
 
             setResults({
-              currentAnnualCost,
-              newAnnualCost,
-              annualSavings,
-              netAnnualSavings,
-              roiPercentage,
-              paybackMonths,
-              timeSavedHours,
-              improvedTimeToHire,
-              improvedTurnoverRate
+              //currentAnnualCost,
+              //newAnnualCost,
+              //annualSavings,
+              //netAnnualSavings,
+              //roiPercentage,
+              //paybackMonths,
+              //timeSavedHours,
+              //improvedTimeToHire,
+              //improvedTurnoverRate
+
+            TotalTimeSavedPerMonth,
+            HRHourlyRate,
+            HRCostSavedPerYear,
+            AnnualSalaryPerHire,
+            AnnualHires,
+            BadHiresPerYear,
+            CostPerBadHire,
+            BadHireLossAvoidedPerYear ,
+            NetSavingsPerYear,
+            NetSavingsPerMonth,
+            Roi,
+            HRHoursSavedAnnually,
+            paybackPeriodInMonths,
+            TimeToHireReduction, 
+            CurrentAnnualCost,
+            NewAnnualCost
             });
           };
 
@@ -307,7 +349,7 @@
                       e('div', {
                         key: 'value',
                         className: "text-3xl font-bold text-green-600"
-                      }, `${results.roiPercentage > 0 ? '+' : ''}${Math.round(results.roiPercentage || 0)}%`),
+                      }, `${results.roi > 0 ? '+' : ''}${Math.round(results.roi || 0)}%`),
                       e('div', {
                         key: 'label',
                         className: "text-sm text-gray-600"
@@ -321,7 +363,7 @@
                       e('div', {
                         key: 'value',
                         className: "text-3xl font-bold text-blue-600"
-                      }, Math.round(results.paybackMonths || 0)),
+                      }, Math.round(results.paybackPeriodInMonths || 0)),
                       e('div', {
                         key: 'label',
                         className: "text-sm text-gray-600"
@@ -329,6 +371,7 @@
                     ])
                   ]),
 
+                    
                   e('div', {
                     key: 'net-savings',
                     className: "mt-4 p-4 bg-gray-50 rounded-lg"
@@ -340,7 +383,7 @@
                       e('div', {
                         key: 'value',
                         className: "text-2xl font-bold text-gray-800"
-                      }, formatCurrency(results.netAnnualSavings || 0)),
+                      }, formatCurrency(results.NetSavingsPerYear || 0)),
                       e('div', {
                         key: 'label',
                         className: "text-sm text-gray-600"
@@ -376,7 +419,8 @@
                         className: "font-bold text-red-600"
                       }, formatCurrency(results.currentAnnualCost || 0))
                     ]),
-                    
+
+                      
                     e('div', {
                       key: 'with-ats',
                       className: "flex justify-between items-center p-3 bg-green-50 rounded"
@@ -402,7 +446,7 @@
                       e('span', {
                         key: 'value',
                         className: "font-bold text-blue-600"
-                      }, formatCurrency(results.annualSavings || 0))
+                      }, formatCurrency(results.NetSavingsPerYear || 0))
                     ])
                   ])
                 ]),
@@ -432,7 +476,7 @@
                       e('span', {
                         key: 'value',
                         className: "font-bold text-blue-600"
-                      }, `${Math.round(inputs.avgTimeToHire - (results.improvedTimeToHire || 0))} days`)
+                      }, `${Math.round(TimeToHireReduction || 0)} days`)
                     ]),
                     
                     e('div', {
@@ -446,7 +490,7 @@
                       e('span', {
                         key: 'value',
                         className: "font-bold text-blue-600"
-                      }, `${Math.round(results.timeSavedHours || 0)} hours`)
+                      }, `${Math.round(results.HRHoursSavedAnnually || 0)} hours`)
                     ]),
                     
                     //e('div', {
