@@ -28,11 +28,11 @@
 
         const ATSROICalculator = () => {
           const [inputs, setInputs] = useState({
-            monthlyHires: 10,
-            avgTimeToHire: 30,
-            hrMonthlyRate: 10000,
+            monthlyHires: 2,
+            avgTimeToHire: 60,
+            hrMonthlyRate: 5000,
             hoursPerHire: 40,
-            salaryPerHire: 15000,
+            salaryPerHire: 10000,
             atsAnnualFee: 15000,
             turnoverRate: 15
           });
@@ -61,8 +61,8 @@
             const paybackPeriodInMonths = inputs.atsAnnualFee / (NetSavingsPerYear / 12);
             const TimeToHireReduction = 0.45 * inputs.avgTimeToHire;
             
-            const CurrentAnnualCost = HRCostSavedPerYear + (BadHiresPerYear * CostPerBadHire);
-            const NewAnnualCost = inputs.atsAnnualFee;
+            const CurrentAnnualCost = 999999;
+            const NewAnnualCost = 999999;
 
             setResults({
               TotalTimeSavedPerMonth,
@@ -186,20 +186,7 @@
                     })
                   ]),
 
-                  // HR Salary
-                  e('div', { key: 'hr-rate' }, [
-                    e('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'HR Monthly Salary (SAR)'),
-                    e('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.hrMonthlyRate,
-                      onChange: (event) => handleInputChange('hrMonthlyRate', event.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-                  ]),
+        
 
                   // Salary Per Hire
                   e('div', { key: 'salary-per-hire' }, [
@@ -212,6 +199,21 @@
                       type: 'number',
                       value: inputs.salaryPerHire,
                       onChange: (event) => handleInputChange('salaryPerHire', event.target.value),
+                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    })
+                  ]),
+
+                 // HR Salary
+                  e('div', { key: 'hr-rate' }, [
+                    e('label', {
+                      key: 'label',
+                      className: "block text-sm font-medium text-gray-700 mb-2"
+                    }, 'HR Monthly Salary (SAR)'),
+                    e('input', {
+                      key: 'input',
+                      type: 'number',
+                      value: inputs.hrMonthlyRate,
+                      onChange: (event) => handleInputChange('hrMonthlyRate', event.target.value),
                       className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     })
                   ]),
