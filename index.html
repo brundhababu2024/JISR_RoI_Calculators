@@ -171,6 +171,21 @@
                     })
                   ]),
 
+        // Salary Per Hire
+                  e('div', { key: 'salary-per-hire' }, [
+                    e('label', {
+                      key: 'label',
+                      className: "block text-sm font-medium text-gray-700 mb-2"
+                    }, 'Monthly Salary Per Hire (SAR)'),
+                    e('input', {
+                      key: 'input',
+                      type: 'number',
+                      value: inputs.salaryPerHire,
+                      onChange: (event) => handleInputChange('salaryPerHire', event.target.value),
+                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    })
+                  ]),
+
                   // Average Time to Hire
                   e('div', { key: 'time-to-hire' }, [
                     e('label', {
@@ -186,22 +201,6 @@
                     })
                   ]),
 
-        
-
-                  // Salary Per Hire
-                  e('div', { key: 'salary-per-hire' }, [
-                    e('label', {
-                      key: 'label',
-                      className: "block text-sm font-medium text-gray-700 mb-2"
-                    }, 'Monthly Salary Per Hire (SAR)'),
-                    e('input', {
-                      key: 'input',
-                      type: 'number',
-                      value: inputs.salaryPerHire,
-                      onChange: (event) => handleInputChange('salaryPerHire', event.target.value),
-                      className: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    })
-                  ]),
 
                  // HR Salary
                   e('div', { key: 'hr-rate' }, [
@@ -304,62 +303,62 @@
                 ]),
 
                 // Cost Comparison
-                e('div', {
-                  key: 'cost-comparison',
-                  className: "bg-white rounded-lg shadow-lg p-6"
-                }, [
-                  e('h2', {
-                    key: 'title',
-                    className: "text-xl font-bold text-gray-800 mb-4"
-                  }, 'Cost Comparison'),
+                //e('div', {
+                //  key: 'cost-comparison',
+                //  className: "bg-white rounded-lg shadow-lg p-6"
+                //}, [
+                //  e('h2', {
+                //    key: 'title',
+                //    className: "text-xl font-bold text-gray-800 mb-4"
+                //  }, 'Cost Comparison'),
                   
-                  e('div', {
-                    key: 'comparisons',
-                    className: "space-y-3"
-                  }, [
-                    e('div', {
-                      key: 'current',
-                      className: "flex justify-between items-center p-3 bg-red-50 rounded"
-                    }, [
-                      e('span', {
-                        key: 'label',
-                        className: "text-gray-700"
-                      }, 'Current Annual Cost'),
-                      e('span', {
-                        key: 'value',
-                        className: "font-bold text-red-600"
-                      }, formatCurrency(results.CurrentAnnualCost || 0))
-                    ]),
+                //  e('div', {
+                //    key: 'comparisons',
+                //    className: "space-y-3"
+                //  }, [
+                //    e('div', {
+                //      key: 'current',
+                //      className: "flex justify-between items-center p-3 bg-red-50 rounded"
+                //    }, [
+                //      e('span', {
+                //        key: 'label',
+                 //       className: "text-gray-700"
+                //      }, 'Current Annual Cost'),
+                //      e('span', {
+                //        key: 'value',
+                //        className: "font-bold text-red-600"
+                //      }, formatCurrency(results.CurrentAnnualCost || 0))
+                //    ]),
 
-                    e('div', {
-                      key: 'with-ats',
-                      className: "flex justify-between items-center p-3 bg-green-50 rounded"
-                    }, [
-                      e('span', {
-                        key: 'label',
-                        className: "text-gray-700"
-                      }, 'With Jisr ATS'),
-                      e('span', {
-                        key: 'value',
-                        className: "font-bold text-green-600"
-                      }, formatCurrency(results.NewAnnualCost || 0))
-                    ]),
-                    
-                    e('div', {
-                      key: 'savings',
-                      className: "flex justify-between items-center p-3 bg-blue-50 rounded border-2 border-blue-200"
-                    }, [
-                      e('span', {
-                        key: 'label',
-                        className: "text-gray-700 font-medium"
-                      }, 'Total Savings'),
-                      e('span', {
-                        key: 'value',
-                        className: "font-bold text-blue-600"
-                      }, formatCurrency(results.NetSavingsPerYear || 0))
-                    ])
-                  ])
-                ]),
+                //    e('div', {
+                //      key: 'with-ats',
+                //      className: "flex justify-between items-center p-3 bg-green-50 rounded"
+                //    }, [
+                //      e('span', {
+                //        key: 'label',
+                //        className: "text-gray-700"
+                //      }, 'With Jisr ATS'),
+                //      e('span', {
+                //        key: 'value',
+                //        className: "font-bold text-green-600"
+                //      }, formatCurrency(results.NewAnnualCost || 0))
+                //    ]),
+                //    
+                //    e('div', {
+                //      key: 'savings',
+                //      className: "flex justify-between items-center p-3 bg-blue-50 rounded border-2 border-blue-200"
+                //    }, [
+                //      e('span', {
+                //        key: 'label',
+                //        className: "text-gray-700 font-medium"
+                //      }, 'Total Savings'),
+                //      e('span', {
+                //        key: 'value',
+                //        className: "font-bold text-blue-600"
+                //      }, formatCurrency(results.NetSavingsPerYear || 0))
+                //    ])
+                //  ])
+                //]),
 
                 // Additional Benefits
                 e('div', {
@@ -419,7 +418,7 @@
               e('p', {
                 key: 'footer-text',
                 className: "text-gray-600 mb-4"
-              }, "Jisr's ATS solution helps companies reduce hiring time by 40% and costs by 35%"),
+              }, "Jisr's ATS solution helps companies reduce time to hire and bad hires significantly."),
               e('div', {
                 key: 'footer-buttons',
                 className: "flex justify-center space-x-4"
