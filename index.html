@@ -56,7 +56,7 @@
             const BadHireLossAvoidedPerYear = 0.5 * BadHiresPerYear * CostPerBadHire;
             const NetSavingsPerYear = BadHireLossAvoidedPerYear + HRCostSavedPerYear - inputs.atsAnnualFee;
             const NetSavingsPerMonth = NetSavingsPerYear / 12;
-            const Roi = (NetSavingsPerYear / inputs.atsAnnualFee) * 100;
+            const Roi = (NetSavingsPerYear / inputs.atsAnnualFee) * 100 - 100;
             const HRHoursSavedAnnually = perCandidateTimeSaved * inputs.monthlyHires * 12;
             const paybackPeriodInMonths = inputs.atsAnnualFee / (NetSavingsPerYear / 12);
             const TimeToHireReduction = 0.45 * inputs.avgTimeToHire;
